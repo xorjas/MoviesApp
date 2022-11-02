@@ -1,0 +1,54 @@
+.movie {
+  max-width: 245px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 10px 10px 14px 3px rgba(0, 0, 0, 0.12);
+  position: relative;
+  .movie-hover {
+    opacity: 0;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    padding: 35px;
+    background: rgba(249, 67, 10, 0.6);
+    border-radius: 5px;
+    p {
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: justify;
+    }
+  }
+  &:hover {
+    .movie-hover {
+      transition: opacity 1s;
+      opacity: 1;
+    }
+  }
+  h1 {
+    font-size: 16px;
+    font-weight: 600;
+    min-height: 52px;
+  }
+  img {
+    width: 100%;
+    height: auto;
+  }
+  p {
+    display: flex;
+    align-items: center;
+    justify-content: baseline;
+    img {
+      width: 15px;
+      height: auto;
+      margin-left: 5px;
+    }
+  }
+}
