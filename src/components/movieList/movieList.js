@@ -1,28 +1,45 @@
 import React from "react";
 import Movie from "../movie/movie";
 import { useMovies } from "../../context/moviesContext";
-import './movieList.scss';
+import "./movieList.scss";
 
 function MovieList() {
-
-  const { movies, getLatestMovies } = useMovies();
+  const {
+    movies,
+    movieSelection,
+    getLatestMovies,
+    getNowPlayingMovies,
+  } = useMovies();
 
   React.useEffect(() => {
-    getLatestMovies();
-  }, [getLatestMovies]);
+    switch(movieSelection){
+      case 'latest':
+        getLatestMovies();
+        break;
+      case 'nowPlaying':
+        getNowPlayingMovies();
+        break;
+      default:
+        getNowPlayingMovies();
+    }
+  }, [movieSelection]);
 
-  if(movies.results != null){
-    console.log(movies)
+  if (movies.results != null) {
     return (
       <div className="movieList">
         {movies.results.map((x) => (
-          <Movie key={x.id} name={x.original_title} overview={x.overview} rate={x.vote_average} imgPath={`https://image.tmdb.org/t/p/w500/${x.poster_path}`}></Movie>
+          <Movie
+            key={x.id}
+            name={x.original_title}
+            overview={x.overview}
+            rate={x.vote_average}
+            imgPath={`https://image.tmdb.org/t/p/w500/${x.poster_path}`}
+          ></Movie>
         ))}
       </div>
     );
-  }else{
-    console.log(movies)
-    return (<div></div>)
+  } else {
+    return <div></div>;
   }
 }
 

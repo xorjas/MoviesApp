@@ -1,21 +1,25 @@
 import React, { createContext, useContext, useState } from "react";
 
 const MoviesContext = createContext({
+  movieSelection: '',
   movies: [],
   movieDetails: undefined,
   loadingMovies: false,
   getLatestMovies: () => {},
   getNowPlayingMovies: () => {},
-  getMovieDetails: () => {}
+  getMovieDetails: () => {},
+  setTypeOfMovies: () => {}
 });
 
 export const MoviesContextProvider = ({ children }) => {
 
+  const [movieSelection, setMovieType] = useState(undefined);
   const [movies, setMovies] = useState([]);
   const [movieDetails, setMovieDetails] = useState(undefined);
   const [loadingMovies, setLoadingMovies] = useState(true);
 
   const getNowPlayingMovies = React.useCallback(async () => {
+    console.log("getNowPlayingMovies")
     try {
       setLoadingMovies(true);
       const response = await fetch(
@@ -30,10 +34,11 @@ export const MoviesContextProvider = ({ children }) => {
   }, []);
 
   const getLatestMovies = React.useCallback(async () => {
+    console.log("getLatestMovies")
     try {
       setLoadingMovies(true);
       const response = await fetch(
-        "https://api.themoviedb.org/3/movie/now_playing?api_key=d3cb19215805c4a60e93dc7559f7598f&language=en-US&page=1"
+        "https://api.themoviedb.org/3/movie/popular?api_key=d3cb19215805c4a60e93dc7559f7598f&language=en-US&page=1"
       );
       const moviesList = await response.json();
       setMovies(moviesList);
@@ -58,14 +63,24 @@ export const MoviesContextProvider = ({ children }) => {
     }
   }, []);
 
+  const setTypeOfMovies = React.useCallback(async (type) => {
+    try {
+      setMovieType(type);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
  
   const contextValue = {
+    movieSelection,
     movies,
     movieDetails,
     loadingMovies,
     getLatestMovies,
     getMovieDetails,
-    getNowPlayingMovies
+    getNowPlayingMovies,
+    setTypeOfMovies
   };
 
   return (
