@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { useMovies } from "../../context/moviesContext";
 import "./header.scss";
 
@@ -24,7 +23,7 @@ function Header(props) {
         <a href="/"><p>Inicio</p></a>
         <p onClick={nowPlayingMoviesClickEvent}>Estrenos</p>
         <p onClick={latestMoviesClickEvent}>Populares</p>
-        <a href="/login"><p>Cuenta</p></a>
+        <a href="/dashboard"><p>Cuenta</p></a>
       </nav>
     </header>
   );

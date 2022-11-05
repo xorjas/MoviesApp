@@ -6,7 +6,7 @@
   padding: 15px;
   position: relative;
   @media (min-width: 1024px) {
-    padding: 45px;
-    grid-template-columns: repeat(6, 1fr);
+    padding: 25px 130px 0;
+    grid-template-columns: repeat(5, 1fr);
   }
 }

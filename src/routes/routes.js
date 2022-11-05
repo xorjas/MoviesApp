@@ -7,6 +7,7 @@ import {
 
 import { HomePage } from "../pages/main";
 import { LoginPage } from "../pages/login";
+import { UserDashboard } from "../pages/userDashboad";
 
 export const Routes = () => {
   return (
@@ -14,6 +15,7 @@ export const Routes = () => {
       <RouterRoutes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/dashboard" element={<UserDashboard />} />
       </RouterRoutes>
     </Router>
   );

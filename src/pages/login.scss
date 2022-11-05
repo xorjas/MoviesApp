@@ -29,13 +29,20 @@
         form{
           display: flex;
           flex-direction: column;
-          label{
-            font-weight: 600;
-            margin-bottom: 5px;
-          }
           input{
+            border: none;
+            outline: 0;
             height: 30px;
             background: #cfcfcf;
+            margin-bottom: 10px;
+            padding: 0px 10px;
+            &[type=submit]{
+              margin-top: 10px;
+              background: #f9430a;
+              color: #FFF;
+              font-weight: 500;
+              border-radius: 25px;
+            }
           }
         }
         .back-link{

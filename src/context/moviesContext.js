@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 
 const MoviesContext = createContext({
+  pageNumber: 1,
   movieSelection: '',
   movies: [],
   movieDetails: undefined,
@@ -8,11 +9,14 @@ const MoviesContext = createContext({
   getLatestMovies: () => {},
   getNowPlayingMovies: () => {},
   getMovieDetails: () => {},
-  setTypeOfMovies: () => {}
+  setTypeOfMovies: () => {},
+  nextMoviePage: () => {},
+  previousMoviePage: () => {}
 });
 
 export const MoviesContextProvider = ({ children }) => {
 
+  const [pageNumber, setMoviePageNumber] = useState(0);
   const [movieSelection, setMovieType] = useState('latest');
   const [movies, setMovies] = useState([]);
   const [movieDetails, setMovieDetails] = useState(undefined);
@@ -71,6 +75,22 @@ export const MoviesContextProvider = ({ children }) => {
     }
   }, []);
 
+  const nextMoviePage = React.useCallback(async () => {
+    try {
+      setMoviePageNumber(pageNumber++);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  const previousMoviePage = React.useCallback(async () => {
+    try {
+      setMoviePageNumber(pageNumber--);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
 
   React.useEffect(() => {
     switch(movieSelection){
@@ -83,10 +103,11 @@ export const MoviesContextProvider = ({ children }) => {
       default:
         getNowPlayingMovies();
     }
-  }, [movieSelection]);
+  }, [movieSelection, pageNumber]);
 
  
   const contextValue = {
+    pageNumber,
     movieSelection,
     movies,
     movieDetails,
@@ -94,7 +115,9 @@ export const MoviesContextProvider = ({ children }) => {
     getLatestMovies,
     getMovieDetails,
     getNowPlayingMovies,
-    setTypeOfMovies
+    setTypeOfMovies,
+    nextMoviePage,
+    previousMoviePage
   };
 
   return (
