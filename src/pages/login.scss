@@ -17,14 +17,27 @@
     position: relative;
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     > div {
-      display: block;
+      display: flex;
+      flex-direction: column;
       height: 100%;
       &:first-of-type {
         position: relative;
-        width: 40%;
+        width: 100%;
         padding: 45px 20px 20px 20px;
+        form{
+          display: flex;
+          flex-direction: column;
+          label{
+            font-weight: 600;
+            margin-bottom: 5px;
+          }
+          input{
+            height: 30px;
+            background: #cfcfcf;
+          }
+        }
         .back-link{
             position: absolute;
             left: 20px;
@@ -35,9 +48,22 @@
         }
       }
       &:last-of-type {
-        width: 60%;
+        width: 100%;
         background: url("../../public/images/login-bg.jpg") no-repeat left bottom;
         background-size: cover;
+      }
+    }
+  }
+  @media (min-width: 1024px) {
+    .login-content{
+      flex-direction: row;
+      > div{
+        &:first-of-type{
+          width: 40%;
+        }
+        &:last-of-type {
+          width: 60%;
+        }
       }
     }
   }
