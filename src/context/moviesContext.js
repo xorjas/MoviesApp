@@ -13,7 +13,7 @@ const MoviesContext = createContext({
 
 export const MoviesContextProvider = ({ children }) => {
 
-  const [movieSelection, setMovieType] = useState(undefined);
+  const [movieSelection, setMovieType] = useState('latest');
   const [movies, setMovies] = useState([]);
   const [movieDetails, setMovieDetails] = useState(undefined);
   const [loadingMovies, setLoadingMovies] = useState(true);
@@ -70,6 +70,20 @@ export const MoviesContextProvider = ({ children }) => {
       console.error(error);
     }
   }, []);
+
+
+  React.useEffect(() => {
+    switch(movieSelection){
+      case 'latest':
+        getLatestMovies();
+        break;
+      case 'nowPlaying':
+        getNowPlayingMovies();
+        break;
+      default:
+        getNowPlayingMovies();
+    }
+  }, [movieSelection]);
 
  
   const contextValue = {

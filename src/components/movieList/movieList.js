@@ -11,18 +11,7 @@ function MovieList() {
     getNowPlayingMovies,
   } = useMovies();
 
-  React.useEffect(() => {
-    switch(movieSelection){
-      case 'latest':
-        getLatestMovies();
-        break;
-      case 'nowPlaying':
-        getNowPlayingMovies();
-        break;
-      default:
-        getNowPlayingMovies();
-    }
-  }, [movieSelection]);
+ 
 
   if (movies.results != null) {
     return (
