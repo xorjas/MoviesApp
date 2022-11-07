@@ -3,7 +3,7 @@ import AuthPage from "../layout/auth/auth";
 export const UserDashboard = () => {
   return (
     <AuthPage>
-        <div>DASHBOARD</div>
+        <p>dashboard</p>
     </AuthPage>
   );
 };

@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import "./login.scss";
 import { async } from "@firebase/util";
 
-export const LoginPage = () => {
+export const SignPage = () => {
   //NAVIGATION INIT
   const navigate = useNavigate();
 
   //GETTING THE VALUES OF THE CONTEXT
-  const { login } = useFirebase();
+  const { firebaseUser, login, register, something } = useFirebase();
 
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
@@ -19,15 +19,11 @@ export const LoginPage = () => {
     e.preventDefault();
 
     try {
-      let loginResponse = await login(user, password);
-      if (loginResponse) {
-        navigate("/dashboard");
+      let registerResponse = await register(user, password);
+      if (registerResponse) {
+        navigate("/");
       }
     } catch (error) {}
-  };
-
-  const registerClickEvent = () => {
-    navigate("/signup");
   };
 
   return (
@@ -36,13 +32,10 @@ export const LoginPage = () => {
         <div className="login-content">
           <div>
             <a className="back-link" href="/">
-              <img src="/images/back.png" alt="backimg" title=""></img>
+              <img src="/images/back.png"></img>
             </a>
-            <span className="registerOption" onClick={registerClickEvent}>
-              Registrarse
-            </span>
-            <h3>Ingreso</h3>
-            <p>Bienvenido! Ingresa tu usuario y contrasenna para ingresar</p>
+            <h3>Registrarse</h3>
+            <p>Ingresa un usuario y una contraseena para registrarte</p>
             <form onSubmit={formSubmit}>
               <input
                 required
@@ -59,7 +52,7 @@ export const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
               ></input>
               <p className="error"></p>
-              <input type="submit" value="Ingresar"></input>
+              <input type="submit" value="Registrarse"></input>
             </form>
           </div>
           <div></div>

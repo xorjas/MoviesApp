@@ -1,17 +1,12 @@
 import React from "react";
 import Movie from "../movie/movie";
 import { useMovies } from "../../context/moviesContext";
+import { useFirebase } from "../../context/firebaseContext";
 import "./movieList.scss";
 
 function MovieList() {
-  const {
-    movies,
-    movieSelection,
-    getLatestMovies,
-    getNowPlayingMovies,
-  } = useMovies();
-
- 
+  const { movies } = useMovies();
+  const { firebaseUser } = useFirebase();
 
   if (movies.results != null) {
     return (

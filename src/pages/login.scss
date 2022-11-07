@@ -42,6 +42,7 @@
               color: #FFF;
               font-weight: 500;
               border-radius: 25px;
+              cursor: pointer;
             }
           }
         }
@@ -49,6 +50,13 @@
             position: absolute;
             left: 20px;
             top: 20px;
+        }
+        .registerOption{
+          font-weight: 600;
+          position: absolute;
+          right: 20px;
+          top: 20px;
+          cursor: pointer;
         }
         h3{
             margin: 0 0 10px 0;

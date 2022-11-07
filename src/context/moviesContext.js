@@ -23,7 +23,6 @@ export const MoviesContextProvider = ({ children }) => {
   const [loadingMovies, setLoadingMovies] = useState(true);
 
   const getNowPlayingMovies = React.useCallback(async () => {
-    console.log("getNowPlayingMovies")
     try {
       setLoadingMovies(true);
       const response = await fetch(
@@ -38,7 +37,6 @@ export const MoviesContextProvider = ({ children }) => {
   }, []);
 
   const getLatestMovies = React.useCallback(async () => {
-    console.log("getLatestMovies")
     try {
       setLoadingMovies(true);
       const response = await fetch(

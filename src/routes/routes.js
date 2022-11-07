@@ -8,15 +8,20 @@ import {
 import { HomePage } from "../pages/main";
 import { LoginPage } from "../pages/login";
 import { UserDashboard } from "../pages/userDashboad";
+import { FirebaseContextProvider } from "../context/firebaseContext";
+import { SignPage } from "../pages/signup";
 
 export const Routes = () => {
   return (
-    <Router>
-      <RouterRoutes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<UserDashboard />} />
-      </RouterRoutes>
-    </Router>
+    <FirebaseContextProvider>
+      <Router>
+        <RouterRoutes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignPage />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
+        </RouterRoutes>
+      </Router>
+    </FirebaseContextProvider>
   );
 };
