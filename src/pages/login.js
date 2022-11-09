@@ -3,7 +3,7 @@ import { useFirebase } from "../context/firebaseContext";
 import LoginTemplate from "../templates/login/loginTemplate";
 import { useNavigate } from "react-router-dom";
 import "./login.scss";
-import { async } from "@firebase/util";
+
 
 export const LoginPage = () => {
   //NAVIGATION INIT

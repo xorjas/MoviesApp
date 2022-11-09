@@ -1,12 +1,10 @@
 import React from "react";
 import Movie from "../movie/movie";
 import { useMovies } from "../../context/moviesContext";
-import { useFirebase } from "../../context/firebaseContext";
 import "./movieList.scss";
 
 function MovieList() {
   const { movies } = useMovies();
-  const { firebaseUser } = useFirebase();
 
   if (movies.results != null) {
     return (
@@ -14,6 +12,7 @@ function MovieList() {
         {movies.results.map((x) => (
           <Movie
             key={x.id}
+            id={x.id}
             name={x.original_title}
             overview={x.overview}
             rate={x.vote_average}

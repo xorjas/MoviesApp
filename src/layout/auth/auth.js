@@ -17,7 +17,7 @@ function AuthPage({ children }) {
     }
   }, [firebaseUser]);
 
-  return <div><p>AUTH PAGE</p>{children}</div>;
+  return <div>{children}</div>;
 }
 
 export default AuthPage;

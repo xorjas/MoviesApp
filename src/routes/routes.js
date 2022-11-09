@@ -7,7 +7,7 @@ import {
 
 import { HomePage } from "../pages/main";
 import { LoginPage } from "../pages/login";
-import { UserDashboard } from "../pages/userDashboad";
+import { UserDashboard } from "../pages/userDashboard";
 import { FirebaseContextProvider } from "../context/firebaseContext";
 import { SignPage } from "../pages/signup";
 

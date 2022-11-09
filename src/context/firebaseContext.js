@@ -1,11 +1,19 @@
 import { initializeApp } from "firebase/app";
 import {
+  getFirestore,
+  setDoc,
+  doc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import React, { createContext, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 
 //FIREBASE CREDENTIALS
 const firebaseConfig = {
@@ -22,16 +30,20 @@ const FirebaseContext = createContext({
   app: null,
   firebaseUser: undefined,
   hasAuthLoaded: true,
+  favoriteMoviesList: [],
   login: () => Promise.resolve(undefined),
   register: () => Promise.resolve(undefined),
-  loginRedirect: () => {},
+  getFavoriteMovies: () => {},
+  addUpdateFavoriteMovie: () => {},
 });
 
 export const FirebaseContextProvider = ({ children }) => {
   //CONTEXT STATES
   const [app, setApp] = useState(undefined);
+  const [database, setDataBase] = useState(undefined);
   const [firebaseUser, setFirebaseUser] = useState(undefined);
   const [hasAuthLoaded, setHasAuthLoaded] = useState(false);
+  const [favoriteMoviesList, setFavoriteMovieList] = useState([]);
 
   //FUNCTION FOR THE CONTEXT
   //LOGIN FROM FIREBASE
@@ -40,7 +52,6 @@ export const FirebaseContextProvider = ({ children }) => {
       const auth = getAuth();
       const user = await signInWithEmailAndPassword(auth, email, password);
       setFirebaseUser(user.user);
-      console.log(user);
       return user;
     } catch (error) {
       console.error(error);
@@ -60,9 +71,41 @@ export const FirebaseContextProvider = ({ children }) => {
     }
   };
 
-  const loginRedirect = () => {
-    if (!firebaseUser) {
+  //ADD FAVORITE MOVIE
+  const addUpdateFavoriteMovie = async (movieID, comment, rating) => {
+    try {
+      const docRef = await setDoc(
+        doc(database, "favorites", firebaseUser.uid + movieID),
+        {
+          movieID: movieID,
+          comment: comment,
+          rating: rating,
+          uid: firebaseUser.uid,
+        }
+      );
+      getFavoriteMovies();
+      return docRef;
+    } catch (error) {
+      console.error(error);
     }
+  };
+
+  const getFavoriteMovies = async () => {
+    try {
+      const movieList = [];
+      const favoritesMovies = await collection(database, "favorites");
+      const q = await query(
+        favoritesMovies,
+        where("uid", "==", firebaseUser.uid)
+      );
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        movieList.push(doc.data())
+      });
+      setFavoriteMovieList(movieList);
+    } catch (error) {}
   };
 
   React.useEffect(() => {
@@ -73,6 +116,8 @@ export const FirebaseContextProvider = ({ children }) => {
   React.useEffect(() => {
     const app = initializeApp(firebaseConfig);
     setApp(app);
+    const db = getFirestore(app);
+    setDataBase(db);
   }, []);
 
   React.useEffect(() => {
@@ -89,9 +134,11 @@ export const FirebaseContextProvider = ({ children }) => {
     app,
     firebaseUser,
     hasAuthLoaded,
+    favoriteMoviesList,
     login,
     register,
-    loginRedirect,
+    getFavoriteMovies,
+    addUpdateFavoriteMovie,
   };
 
   //RETURN OF THE JSX

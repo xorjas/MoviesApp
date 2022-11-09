@@ -88,6 +88,7 @@ export const MoviesContextProvider = ({ children }) => {
       console.error(error);
     }
   }, []);
+  
 
 
   React.useEffect(() => {

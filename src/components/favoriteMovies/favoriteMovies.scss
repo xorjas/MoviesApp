@@ -1,0 +1,42 @@
+.favorite-movie {
+    max-width: 300px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 10px 10px 14px 3px rgba(0, 0, 0, 0.12);
+    position: relative;
+    
+    h1 {
+      font-size: 16px;
+      font-weight: 600;
+      min-height: 52px;
+      margin-bottom: 0;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    p {
+      display: flex;
+      align-items: center;
+      justify-content: baseline;
+    }
+    form{
+        display: flex;
+        flex-direction: column;
+        label{
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        input,select{
+            margin-bottom: 10px;
+            height: 25px;
+        }
+        textarea{
+            height: 100px;
+        }
+    }
+  }
+  
