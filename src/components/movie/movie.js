@@ -16,7 +16,7 @@ function Movie(props) {
   },[agregada])
 
   return (
-    <article className="movie">
+    <article className="movie" id={`movie-${props.id}`}>
       <div className="movie-hover">
         <p>{props.overview}</p>
         {firebaseUser ? (

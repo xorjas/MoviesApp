@@ -22,9 +22,6 @@ function FavoriteMovies(props) {
 
   const formSubmit = async (e) => {
     e.preventDefault();
-    console.log(props.movieID);
-    console.log(comment);
-    console.log(rating);
     addUpdateFavoriteMovie(props.movieID, comment, rating);
     try {
     } catch (error) {}

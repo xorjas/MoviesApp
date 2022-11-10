@@ -12,6 +12,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import React, { createContext, useState, useContext } from "react";
 
@@ -31,6 +32,7 @@ const FirebaseContext = createContext({
   firebaseUser: undefined,
   hasAuthLoaded: true,
   favoriteMoviesList: [],
+  signout: () => Promise.resolve(undefined),
   login: () => Promise.resolve(undefined),
   register: () => Promise.resolve(undefined),
   getFavoriteMovies: () => {},
@@ -108,6 +110,16 @@ export const FirebaseContextProvider = ({ children }) => {
     } catch (error) {}
   };
 
+
+  const signout = async () => {
+    try {
+      const auth = getAuth();
+      signOut(auth);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   React.useEffect(() => {
     // Query firebase for the user
   }, [firebaseUser]);
@@ -135,6 +147,7 @@ export const FirebaseContextProvider = ({ children }) => {
     firebaseUser,
     hasAuthLoaded,
     favoriteMoviesList,
+    signout,
     login,
     register,
     getFavoriteMovies,

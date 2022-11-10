@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 
 const MoviesContext = createContext({
   pageNumber: 1,
-  movieSelection: '',
+  movieSelection: "",
   movies: [],
   movieDetails: undefined,
   loadingMovies: false,
@@ -10,23 +10,21 @@ const MoviesContext = createContext({
   getNowPlayingMovies: () => {},
   getMovieDetails: () => {},
   setTypeOfMovies: () => {},
-  nextMoviePage: () => {},
-  previousMoviePage: () => {}
+  setPageNumber: () => {},
 });
 
 export const MoviesContextProvider = ({ children }) => {
-
-  const [pageNumber, setMoviePageNumber] = useState(0);
-  const [movieSelection, setMovieType] = useState('latest');
+  const [pageNumber, setMoviePageNumber] = useState(1);
+  const [movieSelection, setMovieType] = useState("nowPlaying");
   const [movies, setMovies] = useState([]);
   const [movieDetails, setMovieDetails] = useState(undefined);
-  const [loadingMovies, setLoadingMovies] = useState(true);
+  const [loadingMovies, setLoadingMovies] = useState(false);
 
-  const getNowPlayingMovies = React.useCallback(async () => {
+  const getNowPlayingMovies = React.useCallback(async (page) => {
     try {
       setLoadingMovies(true);
       const response = await fetch(
-        "https://api.themoviedb.org/3/movie/now_playing?api_key=d3cb19215805c4a60e93dc7559f7598f&language=en-US&page=1"
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=d3cb19215805c4a60e93dc7559f7598f&language=en-US&page=${page}`
       );
       const moviesList = await response.json();
       setMovies(moviesList);
@@ -36,11 +34,11 @@ export const MoviesContextProvider = ({ children }) => {
     }
   }, []);
 
-  const getLatestMovies = React.useCallback(async () => {
+  const getLatestMovies = React.useCallback(async (page) => {
     try {
       setLoadingMovies(true);
       const response = await fetch(
-        "https://api.themoviedb.org/3/movie/popular?api_key=d3cb19215805c4a60e93dc7559f7598f&language=en-US&page=1"
+        `https://api.themoviedb.org/3/movie/popular?api_key=d3cb19215805c4a60e93dc7559f7598f&language=en-US&page=${page}`
       );
       const moviesList = await response.json();
       setMovies(moviesList);
@@ -73,38 +71,37 @@ export const MoviesContextProvider = ({ children }) => {
     }
   }, []);
 
-  const nextMoviePage = React.useCallback(async () => {
+  const setPageNumber = React.useCallback(async (page) => {
     try {
-      setMoviePageNumber(pageNumber++);
+      if (page > 0) {
+        setMoviePageNumber(page);
+      }
     } catch (error) {
       console.error(error);
     }
   }, []);
-
-  const previousMoviePage = React.useCallback(async () => {
-    try {
-      setMoviePageNumber(pageNumber--);
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-  
-
 
   React.useEffect(() => {
-    switch(movieSelection){
-      case 'latest':
-        getLatestMovies();
-        break;
-      case 'nowPlaying':
-        getNowPlayingMovies();
-        break;
-      default:
-        getNowPlayingMovies();
+    if (!loadingMovies) {
+      switch (movieSelection) {
+        case "latest":
+          getLatestMovies(pageNumber);
+          break;
+        case "nowPlaying":
+          getNowPlayingMovies(pageNumber);
+          break;
+        default:
+          getLatestMovies(pageNumber);
+      }
     }
-  }, [movieSelection, pageNumber]);
+  }, [
+    movieSelection,
+    pageNumber,
+    setPageNumber,
+    getNowPlayingMovies,
+    getLatestMovies
+  ]);
 
- 
   const contextValue = {
     pageNumber,
     movieSelection,
@@ -115,8 +112,7 @@ export const MoviesContextProvider = ({ children }) => {
     getMovieDetails,
     getNowPlayingMovies,
     setTypeOfMovies,
-    nextMoviePage,
-    previousMoviePage
+    setPageNumber
   };
 
   return (
